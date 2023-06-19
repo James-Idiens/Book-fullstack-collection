@@ -3,7 +3,7 @@ import { Book, NewBook } from '../../models/book'
 
 const rootUrl = '/api/v1'
 
-export const fetchBooks = async () => {
+export async function fetchBooks() {
   try {
     const response = await request.get(`${rootUrl}/books`)
     return response.body
@@ -13,7 +13,7 @@ export const fetchBooks = async () => {
   }
 }
 
-export const createBook = async (newBook: NewBook): Promise<Book> => {
+export async function createBook(newBook: NewBook): Promise<Book> {
   try {
     const response = await request.post(`${rootUrl}/books`).send(newBook)
     return response.body as Book
@@ -23,13 +23,13 @@ export const createBook = async (newBook: NewBook): Promise<Book> => {
   }
 }
 
-export const updateBook = async ({
+export async function updateBook({
   id,
   updatedBook,
 }: {
   id: number
   updatedBook: Partial<Book>
-}): Promise<Book> => {
+}): Promise<Book> {
   try {
     const response = await request
       .put(`${rootUrl}/books/${id}`)
@@ -42,7 +42,7 @@ export const updateBook = async ({
   }
 }
 
-export const deleteBook = async (id: number): Promise<void> => {
+export async function deleteBook(id: number): Promise<void> {
   try {
     await request.delete(`${rootUrl}/books/${id}`)
   } catch (error) {
