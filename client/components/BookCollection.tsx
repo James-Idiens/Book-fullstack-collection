@@ -21,7 +21,7 @@ export default function BookCollection() {
     <div>
       {books.map((book) => (
         <div key={book.id} className="book">
-          <h2>Title: {book.title}</h2>
+          <h2>{book.title}</h2>
           <p>Author: {book.author}</p>
         </div>
       ))}

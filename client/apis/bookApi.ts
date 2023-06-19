@@ -16,7 +16,7 @@ export const fetchBooks = async () => {
 export const createBook = async (newBook: NewBook): Promise<Book> => {
   try {
     const response = await request.post(`${rootUrl}/books`).send(newBook)
-    return response.body
+    return response.body as Book
   } catch (error) {
     console.error(error)
     throw error
