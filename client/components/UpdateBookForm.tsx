@@ -39,6 +39,7 @@ export default function UpdateBookForm({ book }: { book: Book }) {
         value={title}
         onChange={(event) => setTitle(event.target.value)}
         required
+        aria-label="Title"
       />
       <input
         type="text"
@@ -46,6 +47,7 @@ export default function UpdateBookForm({ book }: { book: Book }) {
         value={author}
         onChange={(event) => setAuthor(event.target.value)}
         required
+        aria-label="Author"
       />
       <button type="submit" disabled={updateMutation.isLoading}>
         {updateMutation.isLoading ? 'Updating...' : 'Update Book'}

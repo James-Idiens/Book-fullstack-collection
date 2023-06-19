@@ -43,19 +43,23 @@ export default function BookCollection() {
   }
 
   return (
-    <div>
+    <div className="book-collection">
       {books.map((book) => (
-        <div key={book.id} className="book">
-          <h2>{book.title}</h2>
-          <p>Author: {book.author}</p>
+        <div key={book.id} className="book-card">
+          <h2 className="book-title">{book.title}</h2>
+          <p className="book-author">Author: {book.author}</p>
           {showUpdateFormId === book.id ? (
             <UpdateBookForm book={book} />
           ) : (
-            <button onClick={() => handleShowUpdateForm(book.id)}>
+            <button
+              className="update-button"
+              onClick={() => handleShowUpdateForm(book.id)}
+            >
               Update Book
             </button>
           )}
           <button
+            className="delete-button"
             onClick={() => handleDelete(book.id)}
             disabled={deleteMutation.isLoading}
           >

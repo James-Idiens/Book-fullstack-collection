@@ -38,6 +38,7 @@ export default function NewBookForm() {
         onChange={handleChange}
         name="title"
         required
+        aria-label="Title"
       />
       <input
         type="text"
@@ -46,6 +47,7 @@ export default function NewBookForm() {
         onChange={handleChange}
         name="author"
         required
+        aria-label="Author"
       />
       <button type="submit" disabled={mutation.isLoading}>
         {mutation.isLoading ? 'Creating...' : 'Create Book'}
