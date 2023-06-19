@@ -23,15 +23,19 @@ export const createBook = async (newBook: NewBook): Promise<Book> => {
   }
 }
 
-export const updateBook = async (
-  id: number,
+export const updateBook = async ({
+  id,
+  updatedBook,
+}: {
+  id: number
   updatedBook: Partial<Book>
-): Promise<Book> => {
+}): Promise<Book> => {
   try {
     const response = await request
       .put(`${rootUrl}/books/${id}`)
       .send(updatedBook)
-    return response.body
+    const updatedBookData: Book = response.body
+    return updatedBookData
   } catch (error) {
     console.error(error)
     throw error
