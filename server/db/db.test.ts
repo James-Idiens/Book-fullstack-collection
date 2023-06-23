@@ -1,34 +1,33 @@
-import request from 'supertest'
-import { describe, it, expect, vi } from 'vitest'
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import * as db from './db'
-import server from '../server'
+import connection from './connection'
 
-vi.mock('./db')
+beforeAll(() => {
+  return connection.migrate.latest()
+})
 
-describe('POST /api/v1/books', () => {
-  it('should create a book', async () => {
-    // Arrange
-    vi.mocked(db.createBook).mockImplementation(async (newBook) => {
-      return {
-        id: 1,
-        title: newBook.title,
-        author: newBook.author,
-      }
-    })
+beforeEach(async () => {
+  await connection.seed.run()
+})
 
-    // Act
-    const response = await request(server).post('/api/v1/books').send({
+afterAll(() => {
+  return connection.destroy()
+})
+
+describe('createBook', () => {
+  it('should add a book to the book database', async () => {
+    const newBook = {
       title: 'Test Book',
-      author: 'John Doe',
-    })
+      author: 'Test Author',
+    }
+    const insertedBook = await db.createBook(newBook)
+    expect(insertedBook.title).toBe(newBook.title)
+    expect(insertedBook.author).toBe(newBook.author)
 
-    // Assert
-    expect(response.body).toMatchInlineSnapshot(`
-      {
-        "author": "John Doe",
-        "id": 1,
-        "title": "Test Book",
-      }
-    `)
+    const fetchedBook = await connection('books')
+      .where({ id: insertedBook.id })
+      .first()
+    expect(fetchedBook.title).toBe(newBook.title)
+    expect(fetchedBook.author).toBe(newBook.author)
   })
 })

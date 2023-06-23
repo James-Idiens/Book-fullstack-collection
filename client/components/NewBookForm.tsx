@@ -39,6 +39,7 @@ export default function NewBookForm() {
         name="title"
         required
         aria-label="Title"
+        className="form-input"
       />
       <input
         type="text"
@@ -48,8 +49,13 @@ export default function NewBookForm() {
         name="author"
         required
         aria-label="Author"
+        className="form-input"
       />
-      <button type="submit" disabled={mutation.isLoading}>
+      <button
+        type="submit"
+        className="form-button"
+        disabled={mutation.isLoading}
+      >
         {mutation.isLoading ? 'Creating...' : 'Create Book'}
       </button>
     </form>

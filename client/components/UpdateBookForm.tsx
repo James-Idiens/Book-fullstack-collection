@@ -49,7 +49,11 @@ export default function UpdateBookForm({ book }: { book: Book }) {
         required
         aria-label="Author"
       />
-      <button type="submit" disabled={updateMutation.isLoading}>
+      <button
+        type="submit"
+        className="form-button"
+        disabled={updateMutation.isLoading}
+      >
         {updateMutation.isLoading ? 'Updating...' : 'Update Book'}
       </button>
     </form>
