@@ -14,3 +14,6 @@ I made this project to learn more about TypeScript and to practice full-stack de
 - TypeScript
 - SQLite
 - Knex
+
+## Usage
+Clone down, install dependencies <code>npm install</code> run seeds <code>npm run knex seed:run <code>npm run dev</code> to launch the application
