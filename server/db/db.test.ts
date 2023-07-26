@@ -59,3 +59,17 @@ describe('updateBook', () => {
     }
   })
 })
+
+describe('getAllBooks', () => {
+  it('should return all books in the database', async () => {
+    const books = await db.getAllBooks()
+    const bookLength = await connection('books').count('* as count').first()
+    let expectedLength
+    if (bookLength === null || bookLength.count === undefined) {
+      expectedLength = 0
+    } else {
+      expectedLength = parseInt(bookLength.count as string, 10)
+    }
+    expect(books.length).toBe(expectedLength)
+  })
+})
