@@ -31,3 +31,31 @@ describe('createBook', () => {
     expect(fetchedBook.author).toBe(newBook.author)
   })
 })
+
+describe('updateBook', () => {
+  it('should update a book in the book database', async () => {
+    const updatedBook = {
+      title: 'Updated Book',
+      author: 'Prince Harry',
+    }
+    const bookIdToUpdate = 1
+    const changedBook = await db.updateBook(bookIdToUpdate, updatedBook)
+
+    // Ensure that the returned value is not null
+    expect(changedBook).not.toBeNull()
+
+    if (changedBook) {
+      expect(changedBook.title).toBe(updatedBook.title)
+      expect(changedBook.author).toBe(updatedBook.author)
+
+      const fetchedBook = await connection('books')
+        .where({ id: bookIdToUpdate })
+        .first()
+
+      expect(fetchedBook.title).toBe(updatedBook.title)
+      expect(fetchedBook.author).toBe(updatedBook.author)
+    } else {
+      return null
+    }
+  })
+})
