@@ -122,3 +122,62 @@ describe('GET /api/v1/books/:id', () => {
     expect(response.body).toEqual({ message: 'Internal server error' })
   })
 })
+
+describe('PUT /api/v1/books/:id', () => {
+  it('should update a book by id', async () => {
+    // Arrange
+    const mockBook = { id: 1, title: 'Book 1', author: 'Author 1' }
+    vi.mocked(db.updateBook).mockResolvedValue(mockBook)
+
+    // Act
+    const response = await request(server).put('/api/v1/books/1').send({
+      title: 'Updated Book',
+      author: 'Updated Author',
+    })
+
+    // Assert
+    expect(response.status).toBe(200)
+    expect(response.body).toEqual(mockBook)
+  })
+
+  it('should return 404 if book not found', async () => {
+    // Arrange
+    vi.mocked(db.updateBook).mockResolvedValue(null)
+
+    // Act
+    const response = await request(server).put('/api/v1/books/1').send({
+      title: 'Updated Book',
+      author: 'Updated Author',
+    })
+
+    // Assert
+    expect(response.status).toBe(404)
+    expect(response.body).toEqual({ message: 'Book not found' })
+  })
+})
+
+describe('DELETE /api/v1/books/:id', () => {
+  it('should delete a book by id', async () => {
+    // Arrange
+    vi.mocked(db.deleteBook).mockResolvedValue(true)
+
+    // Act
+    const response = await request(server).delete('/api/v1/books/1')
+
+    // Assert
+    expect(response.status).toBe(200)
+    expect(response.body).toEqual({ message: 'Book deleted successfully' })
+  })
+
+  it('should return 404 if book not found', async () => {
+    // Arrange
+    vi.mocked(db.deleteBook).mockResolvedValue(false)
+
+    // Act
+    const response = await request(server).delete('/api/v1/books/1')
+
+    // Assert
+    expect(response.status).toBe(404)
+    expect(response.body).toEqual({ message: 'Book not found' })
+  })
+})
